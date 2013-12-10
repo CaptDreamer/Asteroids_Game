@@ -6,6 +6,12 @@ public class Movement : MonoBehaviour {
 	public int rotateSpeed;
 	public int thrustSpeed;
 
+	// bullet prefab
+	public GameObject bullet;
+
+	// turret location
+	public Transform turret;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -29,6 +35,10 @@ public class Movement : MonoBehaviour {
 
 			//move the ship
 			this.transform.Translate(Vector3.up * thrust, Space.Self);
+		}
+		if (Input.GetKeyDown (KeyCode.Space))
+		{
+			GameObject bul = (GameObject)Instantiate(bullet, turret.position, turret.rotation);
 		}
 	}
 }

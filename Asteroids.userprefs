@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Asteroid Scripts/Rock_Movement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Ship Scripts/Movement.cs">
     <Files>
-      <File FileName="Assets/Scripts/Asteroid Scripts/Rock_Movement.cs" Line="19" Column="28" />
+      <File FileName="Assets/Scripts/Asteroid Scripts/Rock_Movement.cs" Line="6" Column="2" />
+      <File FileName="Assets/Scripts/Ship Scripts/Movement.cs" Line="38" Column="100" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

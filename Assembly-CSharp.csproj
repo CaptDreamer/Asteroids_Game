@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Asteroid Scripts\Rock_Movement.cs" />
+     <Compile Include="Assets\Scripts\Bullet Scripts\Bullet_Movement.cs" />
      <Compile Include="Assets\Scripts\Ship Scripts\ClampScreen.cs" />
      <Compile Include="Assets\Scripts\Ship Scripts\Movement.cs" />
      <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCamera.cs" />

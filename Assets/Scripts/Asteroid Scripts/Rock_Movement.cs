@@ -3,23 +3,14 @@ using System.Collections;
 
 public class Rock_Movement : MonoBehaviour {
 
-	//worldspace
-	//public GameObject worldcollider;
-
 	//variables
 	int rotationSpeed;
 	int movementSpeed;
 	Vector3 direction;
 
-	//internal borders
-	BoxCollider2D[] worldSpace = new BoxCollider2D[4];
-
 	// Use this for initialization
 	void Start () 
 	{
-		// initialize the borders
-		//worldSpace = GetComponentsInChildren<BoxCollider2D>();
-
 		// initialize random direction, speed and rotation
 		rotationSpeed = Random.Range (800, 1000);
 		movementSpeed = Random.Range (30, 80);
@@ -46,20 +37,41 @@ public class Rock_Movement : MonoBehaviour {
 	//check for collision
 	void OnTriggerEnter2D(Collider2D coll) {
 		string colName = coll.name;
-		Debug.Log (colName);
-		if(colName == "Top" || colName == "Bottom")
+
+		// check for world collision
+		if (coll.tag == "World")
 		{
-			Debug.Log("Hit top or bottom");
-			Vector3 vel = this.rigidbody2D.velocity;
-			vel.y *= -1;
-			this.rigidbody2D.velocity = vel;
+			if(colName == "Top" || colName == "Bottom")
+			{
+				Debug.Log("Hit top or bottom");
+				Vector3 vel = this.rigidbody2D.velocity;
+				vel.y *= -1;
+				this.rigidbody2D.velocity = vel;
+			}
+			if(colName == "Right" || colName == "Left")
+			{
+				Debug.Log("Hit right or left");
+				Vector3 vel = this.rigidbody2D.velocity;
+				vel.x *= -1;
+				this.rigidbody2D.velocity = vel;
+			}
 		}
-		if(colName == "Right" || colName == "Left")
+
+		// check for asteroid collision
+		if (coll.tag == "Asteroid")
 		{
-			Debug.Log("Hit right or left");
-			Vector3 vel = this.rigidbody2D.velocity;
-			vel.x *= -1;
-			this.rigidbody2D.velocity = vel;
+			Destroy(this.gameObject);
+		}
+
+		// check for ship collision
+		if (coll.tag == "Ship")
+		{
+			Debug.Log("Boom");
+		}
+
+		if (coll.tag == "Bullet")
+		{
+			Destroy(this.gameObject);
 		}
 	}
 }
