@@ -1,77 +1,83 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Movement : MonoBehaviour {
+namespace spacerocks
+{
 
-	public int rotateSpeed;
-	public int thrustSpeed;
+	public class Movement : MonoBehaviour {
 
-	// bullet prefab
-	public GameObject bullet;
+		public int rotateSpeed;
+		public int thrustSpeed;
 
-	// turret location
-	public Transform turret;
+		// bullet prefab
+		public GameObject bullet;
 
-	// set values for damage processing
-	PolygonCollider2D col;
-	MeshRenderer mesh;
-	bool alive = true;
+		// turret location
+		public Transform turret;
 
-	// Use this for initialization
-	void Start () {
-		Lives.ship = this;
-		col = this.GetComponent<PolygonCollider2D> ();
-		mesh = this.GetComponent<MeshRenderer> ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetAxis ("Horizontal") != 0 && alive) 
-		{
-			//rotate the ship by rotateSpeed per second
-			float amount = ((-Input.GetAxis ("Horizontal")) * rotateSpeed) * Time.deltaTime;
-			this.transform.Rotate(0, 0, amount);
+		// set values for damage processing
+		PolygonCollider2D col;
+		MeshRenderer mesh;
+		bool alive = true;
+
+		// Use this for initialization
+		void Start () {
+			Lives.ship = this;
+			col = this.GetComponent<PolygonCollider2D> ();
+			mesh = this.GetComponent<MeshRenderer> ();
 		}
-		if (Input.GetAxis ("Vertical") != 0 && alive) 
-		{
-			//thrust by thrustSpeed per second
-			float thrust = ((Input.GetAxis ("Vertical")) * thrustSpeed) * Time.deltaTime;
+		
+		// Update is called once per frame
+		void Update () {
+			if (Input.GetAxis ("Horizontal") != 0 && alive) 
+			{
+				//rotate the ship by rotateSpeed per second
+				float amount = ((-Input.GetAxis ("Horizontal")) * rotateSpeed) * Time.deltaTime;
+				this.transform.Rotate(0, 0, amount);
+			}
+			if (Input.GetAxis ("Vertical") != 0 && alive) 
+			{
+				//thrust by thrustSpeed per second
+				float thrust = ((Input.GetAxis ("Vertical")) * thrustSpeed) * Time.deltaTime;
 
-			//cap movement forward
-			thrust = thrust < 0 ? 0 : thrust;
+				//cap movement forward
+				thrust = thrust < 0 ? 0 : thrust;
 
-			//move the ship
-			this.transform.Translate(Vector3.up * thrust, Space.Self);
+				//move the ship
+				this.transform.Translate(Vector3.up * thrust, Space.Self);
+			}
+			if (Input.GetKeyDown (KeyCode.Space) && alive)
+			{
+				GameObject bul = (GameObject)Instantiate(bullet, turret.position, turret.rotation);
+			}
 		}
-		if (Input.GetKeyDown (KeyCode.Space) && alive)
+
+		public void Destroy_Ship()
 		{
-			GameObject bul = (GameObject)Instantiate(bullet, turret.position, turret.rotation);
+			StartCoroutine (Ship_Respawn());
 		}
-	}
 
-	public void Destroy_Ship()
-	{
-		StartCoroutine (Ship_Respawn());
-	}
+		IEnumerator Ship_Respawn()
+		{
+			// Turn off the collision and the mesh
+			col.enabled = false;
+			mesh.enabled = false;
+			alive = false;
 
-	IEnumerator Ship_Respawn()
-	{
-		// Turn off the collision and the mesh
-		col.enabled = false;
-		mesh.enabled = false;
-		alive = false;
+			// Return Ship to center
+			this.transform.rotation = new Quaternion (0, 0, 0, 0);
+			this.transform.position = new Vector3 (0, 0, 0);
 
-		// Return Ship to center
-		this.transform.rotation = new Quaternion (0, 0, 0, 0);
-		this.transform.position = new Vector3 (0, 0, 0);
+			// Wait
+			yield return new WaitForSeconds (5);
 
-		// Wait
-		yield return new WaitForSeconds (5);
-
-		// Resume Play
-		col.enabled = true;
-		mesh.enabled = true;
-		alive = true;
-
+			// Resume Play if there are more lives
+			if(Game.gameState == GameState.Play)
+			{
+				col.enabled = true;
+				mesh.enabled = true;
+				alive = true;
+			}
+		}
 	}
 }

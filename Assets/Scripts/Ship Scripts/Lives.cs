@@ -1,24 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Lives : MonoBehaviour
+namespace spacerocks
 {
-	static public int lives;
 
-	static public Movement ship;
-
-	static Lives()
+	public class Lives : MonoBehaviour
 	{
-	}
+		static public int lives;
 
-	public Lives()
-	{
-	}
+		static public Movement ship;
 
-	static public void Life_Down()
-	{
-		lives--;
-		ship.Destroy_Ship ();
+		static Lives()
+		{
+		}
 
+		public Lives()
+		{
+		}
+
+		static public void Life_Down()
+		{
+			lives--;
+			ship.Destroy_Ship ();
+		}
 	}
 }
