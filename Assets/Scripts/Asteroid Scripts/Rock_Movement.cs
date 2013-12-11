@@ -77,7 +77,7 @@ public class Rock_Movement : MonoBehaviour {
 		// check for ship collision
 		if (coll.tag == "Ship")
 		{
-			// Debug.Log("Boom");
+			Lives.Life_Down();
 		}
 
 		if (coll.tag == "Bullet")
