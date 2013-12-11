@@ -14,6 +14,9 @@ public class Rock_Movement : MonoBehaviour {
 	public GameObject rockTiny;
 	string rockType;
 
+	// scoring
+	public int largeScore;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -95,6 +98,7 @@ public class Rock_Movement : MonoBehaviour {
 			GameObject twoM = (GameObject)Instantiate(rockMedium, this.transform.position + new Vector3(-.2f,-.2f,0), Quaternion.identity);
 			oneM.GetComponent<Rock_Movement>().direction = this.transform.right;
 			twoM.GetComponent<Rock_Movement>().direction = -this.transform.right;
+			ScoreDisplay.Add_Score(1);
 			Destroy(this.gameObject);
 			break;
 
@@ -103,6 +107,7 @@ public class Rock_Movement : MonoBehaviour {
 			GameObject twoS = (GameObject)Instantiate(rockSmall, this.transform.position + new Vector3(-.1f,-.1f,0), Quaternion.identity);
 			oneS.GetComponent<Rock_Movement>().direction = this.transform.right;
 			twoS.GetComponent<Rock_Movement>().direction = -this.transform.right;
+			ScoreDisplay.Add_Score(2);
 			Destroy(this.gameObject);
 			break;
 
@@ -111,10 +116,12 @@ public class Rock_Movement : MonoBehaviour {
 			GameObject twoT = (GameObject)Instantiate(rockTiny, this.transform.position + new Vector3(-.1f,-.1f,0), Quaternion.identity);
 			oneT.GetComponent<Rock_Movement>().direction = this.transform.right;
 			twoT.GetComponent<Rock_Movement>().direction = -this.transform.right;
+			ScoreDisplay.Add_Score(3);
 			Destroy(this.gameObject);
 			break;
 
 		case "T":
+			ScoreDisplay.Add_Score(4);
 			Destroy(this.gameObject);
 			break;
 

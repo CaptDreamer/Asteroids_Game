@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Asteroid Scripts\Rock_Movement.cs" />
      <Compile Include="Assets\Scripts\Bullet Scripts\Bullet_Movement.cs" />
      <Compile Include="Assets\Scripts\GUI Scripts\LifeDisplay.cs" />
+     <Compile Include="Assets\Scripts\GUI Scripts\ScoreDisplay.cs" />
      <Compile Include="Assets\Scripts\Ship Scripts\ClampScreen.cs" />
      <Compile Include="Assets\Scripts\Ship Scripts\Lives.cs" />
      <Compile Include="Assets\Scripts\Ship Scripts\Movement.cs" />
