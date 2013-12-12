@@ -22,13 +22,16 @@ namespace spacerocks
 
 		// Use this for initialization
 		void Start () 
-		{
-			//register the rocks
-			Game.asteroids++;
-
+		{	
 			//check the type
 			Type_Check ();
 
+			//if its not a large, register it
+			if (rockType != "L")
+			{
+				Game.asteroids++;
+			}
+			
 			// initialize random direction, speed and rotation
 			rotationSpeed = Random.Range (30, 80);
 			movementSpeed = Random.Range (30, 80);

@@ -15,7 +15,7 @@ public class LevelDisplay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	static public void GameOver()
