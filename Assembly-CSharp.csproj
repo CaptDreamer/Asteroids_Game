@@ -50,6 +50,7 @@
      <Compile Include="Assets\Scripts\Bullet Scripts\Bullet_Movement.cs" />
      <Compile Include="Assets\Scripts\GUI Scripts\LevelDisplay.cs" />
      <Compile Include="Assets\Scripts\GUI Scripts\LifeDisplay.cs" />
+     <Compile Include="Assets\Scripts\GUI Scripts\MainMenuDisplay.cs" />
      <Compile Include="Assets\Scripts\GUI Scripts\ScoreDisplay.cs" />
      <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\GameState.cs" />
