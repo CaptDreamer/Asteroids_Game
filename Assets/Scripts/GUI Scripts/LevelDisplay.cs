@@ -4,13 +4,13 @@ using System.Collections;
 public class LevelDisplay : MonoBehaviour {
 
 	static tk2dTextMesh levelText;
-	static MeshRenderer enabled;
+	static MeshRenderer levelEnabled;
 
 	// Use this for initialization
 	void Start () {
 		LevelDisplay.levelText = this.GetComponent<tk2dTextMesh> ();
-		LevelDisplay.enabled = this.GetComponent<MeshRenderer> ();
-		enabled.enabled = false;	
+		LevelDisplay.levelEnabled = this.GetComponent<MeshRenderer> ();
+		levelEnabled.enabled = false;	
 	}
 	
 	// Update is called once per frame
@@ -20,15 +20,15 @@ public class LevelDisplay : MonoBehaviour {
 
 	static public void GameOver()
 	{
-		enabled.enabled = true;
+		levelEnabled.enabled = true;
 		levelText.text = "GAME OVER";
 	}
 
 	static public IEnumerator Level(int lev)
 	{
-		enabled.enabled = true;
+		levelEnabled.enabled = true;
 		levelText.text = string.Format ("LEVEL {0}", lev);
 		yield return new WaitForSeconds(5);
-		enabled.enabled = false;
+		levelEnabled.enabled = false;
 	}
 }

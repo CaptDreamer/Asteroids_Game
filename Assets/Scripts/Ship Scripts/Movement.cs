@@ -48,7 +48,7 @@ namespace spacerocks
 			}
 			if (Input.GetKeyDown (KeyCode.Space) && alive)
 			{
-				GameObject bul = (GameObject)Instantiate(bullet, turret.position, turret.rotation);
+				Instantiate(bullet, turret.position, turret.rotation);
 			}
 		}
 

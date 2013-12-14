@@ -4,33 +4,45 @@ using System.Collections;
 namespace spacerocks
 {
 
-	public class Game : MonoBehaviour {
+	public class Game : MonoBehaviour  {
 
 		static int level;
 		public static GameState gameState;
 
 		// Asteroids
 		public static int asteroids;
-		public GameObject asteroidPrefab;
+		public static GameObject asteroidPrefab;
 
 		// Ship
-		public GameObject ship;
+		public static GameObject ship;
+
+		// restart button
+		static GameObject restartButton;
+
+		static void OnLevelWasLoaded(int l)
+		{
+			if (l == 1)
+			{
+				restartButton = GameObject.Find("Restart_Button");
+				restartButton.SetActive(false);
+			}
+		}
 
 		// Use this for initialization
-		void Start () 
+		static void Start () 
 		{
 			level = 0;
 			gameState = GameState.NewLevel;
 		}
 		
 		// Update is called once per frame
-		void Update () 
+		static void Update () 
 		{
-			Debug.Log (level);
+			//Debug.Log (level);
 			if (gameState == GameState.NewLevel)
 			{
-				StartCoroutine( Generate_Level () );
-				Next_Level();
+				StartCoroutine( Game.Generate_Level () );
+				Game.Next_Level();
 				if (Game.asteroids != 0)
 				{
 					gameState = GameState.Play;
@@ -44,6 +56,7 @@ namespace spacerocks
 			if (gameState == GameState.GameOver)
 			{
 				LevelDisplay.GameOver();
+				restartButton.SetActive(true);
 			}
 			if (gameState == GameState.Play && asteroids == 0 && gameState != GameState.NewLevel)
 			{
@@ -51,15 +64,28 @@ namespace spacerocks
 			}
 		}
 
-		void Next_Level()
+		static void Next_Level()
 		{
+			//Increment the level count
 			level ++;
+
+			//disable the player
+			StartCoroutine (ship.GetComponent<PlayerDisplay>().Player_Display ("Off"));
+
+			//display the level number
 			StartCoroutine (LevelDisplay.Level (level));
 
+			//Generate the asteroids
 			Generate_Level ();
+
+			//blink the player
+			StartCoroutine (ship.GetComponent<PlayerDisplay>().Player_Display ("Blink"));
+
+			//enable the player's controls if its safe
+			StartCoroutine (ship.GetComponent<PlayerDisplay>().Player_Display ("On"));
 		}
 
-		void Clear_Board()
+		static void Clear_Board()
 		{
 			GameObject[] rocks = GameObject.FindGameObjectsWithTag ("Asteroid");
 			//Debug.Log (rocks);
@@ -80,6 +106,5 @@ namespace spacerocks
 			}
 			yield return null;
 		}
-
 	}
 }

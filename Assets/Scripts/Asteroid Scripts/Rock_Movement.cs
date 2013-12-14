@@ -144,7 +144,7 @@ namespace spacerocks
 		void Type_Check()
 		{
 			rockType = this.transform.name.Substring(9,1);
-			Debug.Log (rockType);
+			//Debug.Log (rockType);
 		}
 	}
 }

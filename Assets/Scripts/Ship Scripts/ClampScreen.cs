@@ -25,7 +25,7 @@ public class ClampScreen : MonoBehaviour {
 		if (position.x > 4 || position.x < -4)
 		{
 			position.x *= -1;
-			Debug.Log (position);
+			//Debug.Log (position);
 			this.transform.position = position;
 		}
 	}
