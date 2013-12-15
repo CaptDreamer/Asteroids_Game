@@ -8,6 +8,8 @@ namespace spacerocks
 	{
 		GameObject ship;
 
+		string state;
+
 		void Start()
 		{
 		}
@@ -18,16 +20,19 @@ namespace spacerocks
 			{
 			case "On":
 				Debug.Log("On");
+				state = "On";
 				PlayerToggle(true);
 				break;
 				
 			case "Off":
 				Debug.Log ("Off");
+				state = "Off";
 				PlayerToggle(false);
 				break;
 				
 			case "Blink":
 				Debug.Log("Blink");
+				state = "Blink";
 				StartCoroutine (Blink ());
 				break;
 				
@@ -39,13 +44,12 @@ namespace spacerocks
 
 		IEnumerator Blink()
 		{
-			for(int i = 0; i < 5; i++)
+			while(state == "Blink")
 			{
 				if( this.renderer.enabled == true) { this.renderer.enabled = false; }
 				else { this.renderer.enabled = true; }
 				yield return new WaitForSeconds(.2f);
 			}
-			yield return null;
 		}
 
 		public void PlayerToggle(bool b)

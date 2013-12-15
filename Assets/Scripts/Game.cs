@@ -22,6 +22,9 @@ namespace spacerocks
 		// Gui
 		public GuiController guiController;
 
+		//Collision
+		bool colliding = true;
+
 		// Use this for initialization
 		void Start () 
 		{
@@ -71,8 +74,15 @@ namespace spacerocks
 
 		IEnumerator Next_Level()
 		{
+
 			//Yield for a sec
 			yield return 0;
+
+			if (ship == null )
+			{
+				Debug.Log("Testing");
+				ship = GameObject.Find("Ship");
+			}
 
 			//Increment the level count
 			level ++;
@@ -90,7 +100,26 @@ namespace spacerocks
 			//blink the player
 			guiController.playerDisplay.Player_Display ("Blink");
 
+			//wait a moment
+			yield return new WaitForSeconds (3);
+
 			//enable the player's controls if its safe
+			while(colliding)
+			{
+				foreach(GameObject asteroid in GameObject.FindGameObjectsWithTag("Asteroid"))
+				{
+					if(ship.renderer.bounds.Intersects(asteroid.renderer.bounds))
+					{
+						Debug.Log("Not Safe to Spawn");
+						colliding = true;
+					}
+					else
+					{
+						colliding = false;
+					}
+				}
+			}
+
 			guiController.playerDisplay.Player_Display ("On");
 
 			yield return null;

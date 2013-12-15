@@ -9,6 +9,9 @@ namespace spacerocks
 		public int rotateSpeed;
 		public int thrustSpeed;
 
+		// colliding
+		bool colliding = true;
+
 		//Game Controller
 		Game gameController;
 
@@ -64,23 +67,42 @@ namespace spacerocks
 		IEnumerator Ship_Respawn()
 		{
 			// Turn off the collision and the mesh
-			col.enabled = false;
-			mesh.enabled = false;
-			alive = false;
+			gameController.guiController.playerDisplay.Player_Display ("Off");
 
 			// Return Ship to center
 			this.transform.rotation = new Quaternion (0, 0, 0, 0);
 			this.transform.position = new Vector3 (0, 0, 0);
 
-			// Wait
-			yield return new WaitForSeconds (5);
+			//wait for gamestate to update 1 frame
+			yield return 0;
 
 			// Resume Play if there are more lives
 			if(gameController.gameState == GameState.Play)
 			{
-				col.enabled = true;
-				mesh.enabled = true;
-				alive = true;
+				// Blink
+				gameController.guiController.playerDisplay.Player_Display ("Blink");
+				
+				// Wait
+				yield return new WaitForSeconds (3);
+
+				//enable the player's controls if its safe
+				while(colliding)
+				{
+					foreach(GameObject asteroid in GameObject.FindGameObjectsWithTag("Asteroid"))
+					{
+						if(this.renderer.bounds.Intersects(asteroid.renderer.bounds))
+						{
+							Debug.Log("Not Safe to Spawn");
+							colliding = true;
+						}
+						else
+						{
+							colliding = false;
+						}
+					}
+				}
+
+				gameController.guiController.playerDisplay.Player_Display ("On");
 			}
 		}
 	}

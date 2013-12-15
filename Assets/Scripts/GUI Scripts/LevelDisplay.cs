@@ -32,7 +32,7 @@ namespace spacerocks
 			Debug.Log (levelEnabled.enabled);
 			levelEnabled.enabled = true;
 			levelText.text = string.Format ("LEVEL {0}", lev);
-			yield return new WaitForSeconds(5);
+			yield return new WaitForSeconds(3);
 			levelEnabled.enabled = false;
 		}
 	}
