@@ -3,30 +3,39 @@ using System.Collections;
 
 namespace spacerocks
 {
-
-	public class MainMenuDisplay : MonoBehaviour {
-
+	public class RestartButton : MonoBehaviour 
+	{
+		GameObject button;
 		Game gameController;
 
 		// Use this for initialization
 		void Start () {
+			button = this.gameObject;
 			gameController = GameObject.Find ("GameScripts").GetComponent<Game> ();
-		
+
+			RestartToggle (false);
 		}
 		
 		// Update is called once per frame
 		void Update () {
-			if (Input.GetKeyDown(KeyCode.Space))
+		
+		}
+
+		public void RestartToggle(bool b)
+		{
+			button.renderer.enabled = b;
+			foreach(Transform transform in this.transform)
 			{
-				OnClick ();
+				transform.renderer.enabled = b;
 			}
+			button.collider.enabled = b;
 		}
 
 		void OnClick()
 		{
-			//Debug.Log ("Start!");
 			gameController.gameState = GameState.NewLevel;
 			Application.LoadLevel ("Main");
 		}
+
 	}
 }

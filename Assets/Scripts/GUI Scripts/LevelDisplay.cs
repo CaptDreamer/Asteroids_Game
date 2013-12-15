@@ -1,34 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LevelDisplay : MonoBehaviour {
+namespace spacerocks
+{
 
-	static tk2dTextMesh levelText;
-	static MeshRenderer levelEnabled;
+	public class LevelDisplay : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		LevelDisplay.levelText = this.GetComponent<tk2dTextMesh> ();
-		LevelDisplay.levelEnabled = this.GetComponent<MeshRenderer> ();
-		levelEnabled.enabled = false;	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+		tk2dTextMesh levelText;
+		Renderer levelEnabled;
 
-	}
+		// Use this for initialization
+		void Start () {
+			levelText = this.GetComponent<tk2dTextMesh> ();
+			levelEnabled = this.renderer;
+			// levelEnabled.enabled = false;	
+		}
+		
+		// Update is called once per frame
+		void Update () {
 
-	static public void GameOver()
-	{
-		levelEnabled.enabled = true;
-		levelText.text = "GAME OVER";
-	}
+		}
 
-	static public IEnumerator Level(int lev)
-	{
-		levelEnabled.enabled = true;
-		levelText.text = string.Format ("LEVEL {0}", lev);
-		yield return new WaitForSeconds(5);
-		levelEnabled.enabled = false;
+		public void GameOver()
+		{
+			levelEnabled.enabled = true;
+			levelText.text = "GAME OVER";
+		}
+
+		public IEnumerator level(int lev)
+		{
+			Debug.Log (levelEnabled.enabled);
+			levelEnabled.enabled = true;
+			levelText.text = string.Format ("LEVEL {0}", lev);
+			yield return new WaitForSeconds(5);
+			levelEnabled.enabled = false;
+		}
 	}
 }

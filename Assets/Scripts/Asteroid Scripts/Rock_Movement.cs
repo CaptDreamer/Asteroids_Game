@@ -20,16 +20,25 @@ namespace spacerocks
 		// scoring
 		public int largeScore;
 
+		//Gui
+		GuiController guiController;
+		Game gameController;
+
 		// Use this for initialization
 		void Start () 
 		{	
+			//Set the Gui
+			guiController = GameObject.Find ("GameScripts").GetComponent<GuiController> ();
+			gameController = GameObject.Find ("GameScripts").GetComponent<Game> ();
+
 			//check the type
 			Type_Check ();
 
 			//if its not a large, register it
 			if (rockType != "L")
 			{
-				Game.asteroids++;
+				if (Application.loadedLevel == 1)
+				gameController.asteroids++;
 			}
 			
 			// initialize random direction, speed and rotation
@@ -94,7 +103,7 @@ namespace spacerocks
 
 			if (coll.tag == "Bullet")
 			{
-				Game.asteroids--;
+				gameController.asteroids--;
 				Process_Bullet();
 			}
 		}
@@ -108,7 +117,7 @@ namespace spacerocks
 				GameObject twoM = (GameObject)Instantiate(rockMedium, this.transform.position + new Vector3(-.2f,-.2f,0), Quaternion.identity);
 				oneM.GetComponent<Rock_Movement>().direction = this.transform.right;
 				twoM.GetComponent<Rock_Movement>().direction = -this.transform.right;
-				ScoreDisplay.Add_Score(1);
+				guiController.scoreDisplay.Add_Score(1);
 				Destroy(this.gameObject);
 				break;
 
@@ -117,7 +126,7 @@ namespace spacerocks
 				GameObject twoS = (GameObject)Instantiate(rockSmall, this.transform.position + new Vector3(-.1f,-.1f,0), Quaternion.identity);
 				oneS.GetComponent<Rock_Movement>().direction = this.transform.right;
 				twoS.GetComponent<Rock_Movement>().direction = -this.transform.right;
-				ScoreDisplay.Add_Score(2);
+				guiController.scoreDisplay.Add_Score(2);
 				Destroy(this.gameObject);
 				break;
 
@@ -126,12 +135,12 @@ namespace spacerocks
 				GameObject twoT = (GameObject)Instantiate(rockTiny, this.transform.position + new Vector3(-.1f,-.1f,0), Quaternion.identity);
 				oneT.GetComponent<Rock_Movement>().direction = this.transform.right;
 				twoT.GetComponent<Rock_Movement>().direction = -this.transform.right;
-				ScoreDisplay.Add_Score(3);
+				guiController.scoreDisplay.Add_Score(3);
 				Destroy(this.gameObject);
 				break;
 
 			case "T":
-				ScoreDisplay.Add_Score(4);
+				guiController.scoreDisplay.Add_Score(4);
 				Destroy(this.gameObject);
 				break;
 

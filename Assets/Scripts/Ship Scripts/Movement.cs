@@ -9,6 +9,9 @@ namespace spacerocks
 		public int rotateSpeed;
 		public int thrustSpeed;
 
+		//Game Controller
+		Game gameController;
+
 		// bullet prefab
 		public GameObject bullet;
 
@@ -22,6 +25,7 @@ namespace spacerocks
 
 		// Use this for initialization
 		void Start () {
+			gameController = GameObject.Find ("GameScripts").GetComponent<Game> ();
 			Lives.ship = this;
 			col = this.GetComponent<PolygonCollider2D> ();
 			mesh = this.GetComponent<MeshRenderer> ();
@@ -72,7 +76,7 @@ namespace spacerocks
 			yield return new WaitForSeconds (5);
 
 			// Resume Play if there are more lives
-			if(Game.gameState == GameState.Play)
+			if(gameController.gameState == GameState.Play)
 			{
 				col.enabled = true;
 				mesh.enabled = true;

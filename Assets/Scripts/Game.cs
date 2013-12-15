@@ -6,86 +6,97 @@ namespace spacerocks
 
 	public class Game : MonoBehaviour  {
 
-		static int level;
-		public static GameState gameState;
+		int level;
+		public GameState gameState;
+
+		// Next level counter
+		bool nextLevBool = false;
 
 		// Asteroids
-		public static int asteroids;
-		public static GameObject asteroidPrefab;
+		public int asteroids;
+		public GameObject asteroidPrefab;
 
 		// Ship
-		public static GameObject ship;
+		public GameObject ship;
 
-		// restart button
-		static GameObject restartButton;
-
-		static void OnLevelWasLoaded(int l)
-		{
-			if (l == 1)
-			{
-				restartButton = GameObject.Find("Restart_Button");
-				restartButton.SetActive(false);
-			}
-		}
+		// Gui
+		public GuiController guiController;
 
 		// Use this for initialization
-		static void Start () 
+		void Start () 
 		{
+			DontDestroyOnLoad (this);
 			level = 0;
-			gameState = GameState.NewLevel;
+			gameState = GameState.Menu;
+			StartCoroutine (Starter ());
+		}
+
+		IEnumerator Starter()
+		{
+			yield return 0;
+			while(true)
+			{
+				yield return StartCoroutine(GameEngine());
+			}
 		}
 		
 		// Update is called once per frame
-		static void Update () 
+		IEnumerator GameEngine () 
 		{
 			//Debug.Log (level);
 			if (gameState == GameState.NewLevel)
 			{
-				StartCoroutine( Game.Generate_Level () );
-				Game.Next_Level();
-				if (Game.asteroids != 0)
-				{
-					gameState = GameState.Play;
-				}
+				yield return StartCoroutine( Next_Level());
+				Debug.Log ("Ended Level Create");
+				gameState = GameState.Play;
 			}
 			if (gameState == GameState.Play && Lives.lives == 0)
 			{
 				Clear_Board();
+				level = 0;
+				asteroids = 0;
 				gameState = GameState.GameOver;
 			}
 			if (gameState == GameState.GameOver)
 			{
-				LevelDisplay.GameOver();
-				restartButton.SetActive(true);
+				guiController.levelDisplay.GameOver();
+				guiController.restartButton.RestartToggle(true);
 			}
 			if (gameState == GameState.Play && asteroids == 0 && gameState != GameState.NewLevel)
 			{
 				gameState = GameState.NewLevel;
 			}
+			yield return null;
 		}
 
-		static void Next_Level()
+		IEnumerator Next_Level()
 		{
+			//Yield for a sec
+			yield return 0;
+
 			//Increment the level count
 			level ++;
 
 			//disable the player
-			StartCoroutine (ship.GetComponent<PlayerDisplay>().Player_Display ("Off"));
+			Debug.Log ("Trying to turn player off");
+			guiController.playerDisplay.Player_Display ("Off");
 
 			//display the level number
-			StartCoroutine (LevelDisplay.Level (level));
+			yield return StartCoroutine( guiController.levelDisplay.level (level) );
 
 			//Generate the asteroids
-			Generate_Level ();
+			yield return StartCoroutine( Generate_Level () );
 
 			//blink the player
-			StartCoroutine (ship.GetComponent<PlayerDisplay>().Player_Display ("Blink"));
+			guiController.playerDisplay.Player_Display ("Blink");
 
 			//enable the player's controls if its safe
-			StartCoroutine (ship.GetComponent<PlayerDisplay>().Player_Display ("On"));
+			guiController.playerDisplay.Player_Display ("On");
+
+			yield return null;
 		}
 
-		static void Clear_Board()
+	    void Clear_Board()
 		{
 			GameObject[] rocks = GameObject.FindGameObjectsWithTag ("Asteroid");
 			//Debug.Log (rocks);
@@ -97,14 +108,15 @@ namespace spacerocks
 
 		IEnumerator Generate_Level()
 		{
-			while(Game.asteroids<4)
+			while(asteroids<4)
 			{
 				float rockX = Random.Range(-3,3);
 				float rockY = Random.Range(-2,2);
 				Instantiate(asteroidPrefab,new Vector3(rockX, rockY, 0), Quaternion.identity);
-				Game.asteroids++;
+				Debug.Log("Generating asteroid number: " + asteroids);
+				asteroids++;
 			}
-			yield return null;
+			yield break;
 		}
 	}
 }
